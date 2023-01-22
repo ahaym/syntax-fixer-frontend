@@ -17,5 +17,9 @@
 		"svelte": "^3.54.0",
 		"vite": "^4.0.0"
 	},
-	"type": "module"
+	"type": "module",
+	"dependencies": {
+		"@codemirror/lang-javascript": "^6.1.2",
+		"codemirror": "^6.0.1"
+	}
 }
