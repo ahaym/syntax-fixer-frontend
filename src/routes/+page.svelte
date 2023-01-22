@@ -29,10 +29,32 @@ async function onClick() {
   
   editor.change(res.data.code_js);
 }
+
+async function onRun() {
+  const res = await axios.post(
+      'https://syntax.textql.com' + '/run',
+      {
+        code_js: textContent,
+      },
+  );
+  console.log(res.data.code_js);
+  result = res.data;
+}
 </script>
 
 <h1>Welcome to the Syntax-Fixer Demo</h1>
 <p>Let's fix the code below!</p>
 
 <CodeMirror bind:this={editor} bind:textContent={textContent}/>
+<button on:click={onRun}>Run Code</button>
 <button on:click={onClick}>Fix Errors!</button>
+
+<h2>Errors</h2>
+{#if result.stderr}
+  <pre>{result.stderr}</pre>
+{/if}
+
+<h2>Output</h2>
+{#if result.stdout}
+  <pre>{result.stdout}</pre>
+{/if}
