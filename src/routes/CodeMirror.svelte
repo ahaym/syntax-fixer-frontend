@@ -32,6 +32,8 @@ export function change(txt) {
 }
 
 function createEditor() {
+  let hash = window.location.hash;
+  if (hash) {textContent = atob(hash.slice(1));}
   editor = new EditorView({
     doc: textContent,
     extensions: [basicSetup, javascript(), EditorView.updateListener.of(updateListener)],

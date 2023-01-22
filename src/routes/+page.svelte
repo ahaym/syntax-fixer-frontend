@@ -1,18 +1,19 @@
 <script>
 import axios from 'axios';
 import CodeMirror from './CodeMirror.svelte'
-let textContent = `function twoSum(arr, n) {
+import { onMount } from 'svelte';
+let defaultText = `function twoSum(arr, n) {
   for(let i = 0; i < arr.length; i++) {
-    for (let j = i + 1; j < arr.length; j++) {
       if (arr[i] + arr[j] === n) return true;
-    }
   }
   return false;
 }
 let name = 'Mark';
 
 console.log('Hello ' + name + '!');
-console.log('The answer is: ' + twoSum([1,9,5], 8));`
+console.log('The answer is: ' + twoSum([1,3,9,5], 8));`
+
+let textContent = defaultText;
 
 let editor;
 let result = {};
@@ -28,6 +29,7 @@ async function onClick() {
   result = res.data;
   
   editor.change(res.data.code_js);
+  window.location.hash = btoa(res.data.code_js);
 }
 
 async function onRun() {
@@ -39,15 +41,24 @@ async function onRun() {
   );
   console.log(res.data.code_js);
   result = res.data;
+  window.location.hash = btoa(textContent);
+}
+
+async function onChange() {
+  window.location.hash = btoa(textContent);
+}
+async function onReset() {
+  editor.change(defaultText);
 }
 </script>
 
 <h1>Welcome to the Syntax-Fixer Demo</h1>
 <p>Let's fix the code below!</p>
 
-<CodeMirror bind:this={editor} bind:textContent={textContent}/>
+<CodeMirror on:change={onChange} bind:this={editor} bind:textContent={textContent}/>
 <button on:click={onRun}>Run Code</button>
 <button on:click={onClick}>Fix Errors!</button>
+<button on:click={onReset}>Reset To Default</button>
 
 <h2>Errors</h2>
 {#if result.stderr}
