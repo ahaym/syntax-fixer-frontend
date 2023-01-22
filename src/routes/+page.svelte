@@ -19,7 +19,7 @@ let result = {};
 
 async function onClick() {
   const res = await axios.post(
-      'http://45.79.99.172' + '/fix',
+      'https://syntax.textql.com' + '/fix',
       {
         code_js: textContent,
       },
