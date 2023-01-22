@@ -20,6 +20,7 @@
 	"type": "module",
 	"dependencies": {
 		"@codemirror/lang-javascript": "^6.1.2",
+		"axios": "^1.2.3",
 		"codemirror": "^6.0.1"
 	}
 }

@@ -19,14 +19,20 @@ import { createEventDispatcher } from 'svelte';
 const dispatch = createEventDispatcher();
 
 let editorPane;
+let editor;
 export let textContent = '';
 
 $: if (editorPane) {
   createEditor();
 }
 
+export function change(txt) {
+  let state = editor.state;
+  editor.update([state.update({changes: {from: 0, to: state.doc.length, insert: txt}})]);
+}
+
 function createEditor() {
-  let editor = new EditorView({
+  editor = new EditorView({
     doc: textContent,
     extensions: [basicSetup, javascript(), EditorView.updateListener.of(updateListener)],
     parent: editorPane
